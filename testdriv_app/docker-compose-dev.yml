@@ -1,0 +1,24 @@
+#version: '3.4'
+#cassecoulliees => docker@default:~$ sudo cat  /var/lib/docker/containers/59d72784c406857437704f5aa5dc2fa80f063e5c8c89e411c3d9a59d3b9935ce/resolv.conf
+#nameserver 127.0.0.11
+#options ndots:0
+#http://192.168.99.1:5001/users/ping ==> {
+#  "message": "pong!",
+#    "status": "success"
+#    }
+#
+#
+services:
+  users:
+    container_name: users
+    build:
+      context: ./services/users
+      dockerfile: Dockerfile-dev
+    volumes:
+      - './services/users:/usr/src/app'
+    ports:
+      - 5001:5000
+    environment:
+      - FLASK_APP=project/__init__.py
+      - FLASK_DEBUG=1
+      - APP_SETTINGS=project.config.DevelopmentConfig
